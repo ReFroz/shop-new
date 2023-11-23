@@ -86,3 +86,27 @@ model Note {
     topic     Topic    @relation(fields: [topicId], references: [id])
     topicId   String
 }
+
+model Post{
+    id  String  @id @default(cuid())
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+    title String
+    categories Category[]
+    brands Brand[]
+}
+
+model Brand{
+    id String @id @default(cuid())
+    postID String
+    title String
+    posts Post @relation(fields: [postID],references: [id])
+}
+
+model Category{
+    id String @id @default(cuid())
+    title String 
+    popularity Int
+    posts Post @relation(fields:[postId], references: [id])
+    postId String
+}
