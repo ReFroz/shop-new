@@ -1,13 +1,10 @@
 import { z } from "zod";
-import { createTRPCRouter, protectedProcedure } from "../trpc";
+import { createTRPCRouter, protectedProcedure, publicProcedure } from "../trpc";
 
 export const postsRouter = createTRPCRouter({
-    getAll:protectedProcedure
+    getAll:publicProcedure
     .query(({ctx})=>{
-        return ctx.prisma.post.findMany(
-            where:{
-                id: "0"
-            }
+        return ctx.db.post.findMany(
         )
     })
 })

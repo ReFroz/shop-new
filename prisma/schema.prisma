@@ -70,7 +70,6 @@ model VerificationToken {
 model Topic {
     id        String   @id @default(cuid())
     createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
     title     String
     user      User     @relation(fields: [userId], references: [id])
     userId    String
@@ -80,7 +79,6 @@ model Topic {
 model Note {
     id        String   @id @default(cuid())
     createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
     title     String   
     content   String   @db.Text
     topic     Topic    @relation(fields: [topicId], references: [id])
@@ -90,10 +88,19 @@ model Note {
 model Post{
     id  String  @id @default(cuid())
     createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
     title String
+    price Int
+    popularity Int @default(0)
+    imgs Image[]
     categories Category[]
     brands Brand[]
+}
+model Image{
+    id String @id @default(cuid())
+    postID String
+    title String 
+    altTitle String
+    posts Post @relation(fields: [postID],references: [id])
 }
 
 model Brand{
@@ -106,7 +113,7 @@ model Brand{
 model Category{
     id String @id @default(cuid())
     title String 
-    popularity Int
+    popularity Int @default(0)
     posts Post @relation(fields:[postId], references: [id])
     postId String
 }

@@ -19,6 +19,7 @@ export default {
       },
       colors:{
         'base': "#BDCCD4",
+        'base-opacity':'rgba(189, 204, 212, 0.50)',
       },
       screens:{
         'mobile':'670px'

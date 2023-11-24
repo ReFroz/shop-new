@@ -6,9 +6,7 @@ export default function Layout({children}) {
   return (
     <>
     <Navbar/>
-    <main
-    className='max-w-[1180px] mx-auto px-5'
-    >{children}</main>
+    <main>{children}</main>
     <Footer/>
     </>
   )

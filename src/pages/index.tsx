@@ -6,26 +6,25 @@ import { api } from "~/utils/api";
 import Layout from '../components/Layout'
 import Televisor from '../img/televisor.png'
 
-import { register } from 'swiper/element/bundle'
 import { useEffect, useState } from "react";
-register();
+import { title } from "process";
 
 
 export default function Home() {
+  const [data, setData] = useState(0)
+  const [minutes, setMinutes] = useState(0)
+  const [seconds, setSeconds] = useState(0)
 
-
-  const [date,setDate]=useState(0)
-  const [minutes,setMinutes]=useState(0)
-  const [seconds,setSeconds]=useState(0)
-  const interval = useEffect(()=>{
-    setInterval(()=>{
-      const date=new Date()
-      setDate(24 - date.getHours())
+  useEffect(() => {
+    const interval = setInterval(() => {
+      const date = new Date()
+      setData(24 - date.getHours())
       setMinutes(60 - date.getMinutes())
-      setSeconds(( date.getSeconds()))
-      
-    },1000)
-  },[]);
+      setSeconds(60 -(date.getSeconds()))
+
+    }, 1000);
+    return () => clearInterval(interval);
+  }, []);
 
 
   return (
@@ -36,8 +35,7 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Layout>
-        <div>
-        </div>
+      <div className="max-w-[1180px] mx-auto">
         <div className='font-basic flex gap-[42px]'>
           <div className='flex flex-col items-center max-w-[570px] border-base border-solid border-[1px] rounded-lg shadow py-6 text-center'>
             <p className='text-3xl'>Горячие скидки</p>
@@ -51,24 +49,26 @@ export default function Home() {
                 pagination='true'
                 loop='true'
               >
-                <swiper-slide><Image src={Televisor} width={200} quality={100} height={200}/></swiper-slide>
-                <swiper-slide><Image src={Televisor} width={200} height={200}/></swiper-slide>
-                <swiper-slide><Image src={Televisor} width={200} height={200}/></swiper-slide>
-                <swiper-slide><Image src={Televisor} width={200} height={200}/></swiper-slide>
-                <swiper-slide><Image src={Televisor} width={200} height={200}/></swiper-slide>
-                <swiper-slide><Image src={Televisor} width={200} height={200}/></swiper-slide>
-                
+                <swiper-slide><Image src={Televisor} width={200} quality={100} height={200} /></swiper-slide>
+                <swiper-slide><Image src={Televisor} width={200} height={200} /></swiper-slide>
+                <swiper-slide><Image src={Televisor} width={200} height={200} /></swiper-slide>
+                <swiper-slide><Image src={Televisor} width={200} height={200} /></swiper-slide>
+                <swiper-slide><Image src={Televisor} width={200} height={200} /></swiper-slide>
+                <swiper-slide><Image src={Televisor} width={200} height={200} /></swiper-slide>
+
               </swiper-container>
             </div>
           </div>
           <div className='flex flex-col items-center max-w-[570px] border-base border-solid border-[1px] rounded-lg shadow py-6 text-center'>
             <div className="flex w-full px-10 justify-between ">
+              <div>
               <p className='text-3xl'>
-                Товар дня {" "}
-            <hr className='w-[200px] h-[7px] rounded bg-base my-2' />
+                Товар дня
               </p>
+                <hr className='w-[200px] h-[7px] rounded bg-base my-2' />
+                </div>
               <p className='text-3xl'>
-                {date}{":"}{minutes}{":"}{seconds}
+                {data}{":"}{minutes}{":"}{seconds}
               </p>
             </div>
             <div className='max-w-[570px] ' >
@@ -78,37 +78,52 @@ export default function Home() {
                 pagination='true'
                 loop='true'
               >
-                <swiper-slide><Image src={Televisor} width={200} quality={100} height={200}/></swiper-slide>
-                <swiper-slide><Image src={Televisor} width={200} height={200}/></swiper-slide>
-                <swiper-slide><Image src={Televisor} width={200} height={200}/></swiper-slide>
-                <swiper-slide><Image src={Televisor} width={200} height={200}/></swiper-slide>
-                <swiper-slide><Image src={Televisor} width={200} height={200}/></swiper-slide>
-                <swiper-slide><Image src={Televisor} width={200} height={200}/></swiper-slide>
-                
+                <swiper-slide><Image src={Televisor} width={200} quality={100} height={200} /></swiper-slide>
+                <swiper-slide><Image src={Televisor} width={200} height={200} /></swiper-slide>
+                <swiper-slide><Image src={Televisor} width={200} height={200} /></swiper-slide>
+                <swiper-slide><Image src={Televisor} width={200} height={200} /></swiper-slide>
+                <swiper-slide><Image src={Televisor} width={200} height={200} /></swiper-slide>
+                <swiper-slide><Image src={Televisor} width={200} height={200} /></swiper-slide>
+
               </swiper-container>
             </div>
           </div>
         </div>
+      </div>
 
-        <h1>Hello</h1>
-
-        <div>
-          <Content/>
+        <div className="bg-base-opacity mx-auto m-[40px]">
+            <div className="mx-auto max-w-[1180px]  py-[30px]">
+              <p className='text-3xl'>Хиты продаж</p>
+              <hr className='w-[300px] h-[7px] rounded bg-base my-2' />
+              <Content />
+            </div>
         </div>
       </Layout>
     </>
   );
 
-  }
+}
 
-const Content:React.FC=()=>
-{
-  const {data:posts}=api.posts.getAll.useQuery(
-    undefined
-  )
-  return(
-    <div>
-    <div>{JSON.stringify(posts)}</div>
-    </div>
-  )
+const Content = () => {
+  const { data: posts } = api.posts.getAll.useQuery()
+
+  return (<>
+    <ul className="grid grid-cols-4 justify-between gap-[10px] ">
+    {posts?.map((item)=>
+      <li key={item.id}
+      className="flex flex-col justify-between border-solid bg-white border-[1px] text-center border-basic p-4 pb-2 rounded"
+      >
+      {item.title}
+        <div className="flex mt-6 w-full justify-between">
+          <p className="font-basic font-xl font-normal ">{item.price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ")}</p>
+          <div className="flex gap-5">
+            <button className="bg-red-600 p-1 rounded">К</button>
+            <button>Л</button>
+            <button>С</button>
+          </div>
+        </div>
+      </li>
+      )}
+    </ul>
+  </>)
 }
