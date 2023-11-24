@@ -4,27 +4,19 @@ import Image from 'next/image'
 import Link from "next/link";
 import { api } from "~/utils/api";
 import Layout from '../components/Layout'
+
 import Televisor from '../img/televisor.png'
+import Favourites from '../img/Favourites.svg'
+import Comparison from '../img/Comparison.svg'
+import Basket from '../img/Basket_white.svg'
 
 import { useEffect, useState } from "react";
 import { title } from "process";
+import { SwiperSlide } from "swiper/react";
 
 
 export default function Home() {
-  const [data, setData] = useState(0)
-  const [minutes, setMinutes] = useState(0)
-  const [seconds, setSeconds] = useState(0)
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      const date = new Date()
-      setData(24 - date.getHours())
-      setMinutes(60 - date.getMinutes())
-      setSeconds(60 -(date.getSeconds()))
-
-    }, 1000);
-    return () => clearInterval(interval);
-  }, []);
+  
 
 
   return (
@@ -35,7 +27,47 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Layout>
-      <div className="max-w-[1180px] mx-auto">
+      <PostWithDiscount/>
+
+
+        {/* Хиты продаж */}
+        <div className="bg-base-opacity mx-auto m-[40px]">
+            <div className="mx-auto max-w-[1180px]  py-[30px]">
+              <p className='text-3xl'>Хиты продаж</p>
+              <hr className='w-[300px] h-[7px] rounded bg-base my-2' />
+                <Content />
+            </div>
+        </div>
+
+
+
+      </Layout>
+    </>
+  );
+
+}
+
+const PostWithDiscount= ()=>{
+  const [data, setData] = useState(0) 
+  const [minutes, setMinutes] = useState(0)
+  const [seconds, setSeconds] = useState(0)
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      const date = new Date()
+      setData(24 - date.getHours())
+      setMinutes(59 - date.getMinutes())
+      setSeconds(60 -(date.getSeconds()))
+
+    }, 1000);
+    return () => clearInterval(interval);
+  }, []);
+
+
+
+
+  return (
+  <div className="max-w-[1180px] mx-auto">
         <div className='font-basic flex gap-[42px]'>
           <div className='flex flex-col items-center max-w-[570px] border-base border-solid border-[1px] rounded-lg shadow py-6 text-center'>
             <p className='text-3xl'>Горячие скидки</p>
@@ -49,12 +81,14 @@ export default function Home() {
                 pagination='true'
                 loop='true'
               >
-                <swiper-slide><Image src={Televisor} width={200} quality={100} height={200} /></swiper-slide>
-                <swiper-slide><Image src={Televisor} width={200} height={200} /></swiper-slide>
-                <swiper-slide><Image src={Televisor} width={200} height={200} /></swiper-slide>
-                <swiper-slide><Image src={Televisor} width={200} height={200} /></swiper-slide>
-                <swiper-slide><Image src={Televisor} width={200} height={200} /></swiper-slide>
-                <swiper-slide><Image src={Televisor} width={200} height={200} /></swiper-slide>
+                <swiper-slide><Image src={Televisor} className="block w-full h-full"  width={200} height={200}/></swiper-slide>
+                <swiper-slide><Image src={Televisor} className="block w-full h-full"  width={200} height={200}/></swiper-slide>
+                <swiper-slide><Image src={Televisor} className="block w-full h-full"  width={200} height={200}/></swiper-slide>
+                <swiper-slide><Image src={Televisor} className="block w-full h-full"  width={200} height={200}/></swiper-slide>
+                <swiper-slide><Image src={Televisor} className="block w-full h-full"  width={200} height={200}/></swiper-slide>
+                <swiper-slide><Image src={Televisor} className="block w-full h-full"  width={200} height={200}/></swiper-slide>
+                <swiper-slide><Image src={Televisor} className="block w-full h-full"  width={200} height={200}/></swiper-slide>
+               
 
               </swiper-container>
             </div>
@@ -78,52 +112,63 @@ export default function Home() {
                 pagination='true'
                 loop='true'
               >
-                <swiper-slide><Image src={Televisor} width={200} quality={100} height={200} /></swiper-slide>
-                <swiper-slide><Image src={Televisor} width={200} height={200} /></swiper-slide>
-                <swiper-slide><Image src={Televisor} width={200} height={200} /></swiper-slide>
-                <swiper-slide><Image src={Televisor} width={200} height={200} /></swiper-slide>
-                <swiper-slide><Image src={Televisor} width={200} height={200} /></swiper-slide>
-                <swiper-slide><Image src={Televisor} width={200} height={200} /></swiper-slide>
-
+                <swiper-slide><Image src={Televisor} className="block w-full h-full"  width={200} height={200}/></swiper-slide>
+                <swiper-slide><Image src={Televisor} className="block w-full h-full"  width={200} height={200}/></swiper-slide>
+                <swiper-slide><Image src={Televisor} className="block w-full h-full"  width={200} height={200}/></swiper-slide>
+                <swiper-slide><Image src={Televisor} className="block w-full h-full"  width={200} height={200}/></swiper-slide>
+                <swiper-slide><Image src={Televisor} className="block w-full h-full"  width={200} height={200}/></swiper-slide>
+                <swiper-slide><Image src={Televisor} className="block w-full h-full"  width={200} height={200}/></swiper-slide>
+                <swiper-slide><Image src={Televisor} className="block w-full h-full"  width={200} height={200}/></swiper-slide>
+                
               </swiper-container>
             </div>
           </div>
         </div>
       </div>
-
-        <div className="bg-base-opacity mx-auto m-[40px]">
-            <div className="mx-auto max-w-[1180px]  py-[30px]">
-              <p className='text-3xl'>Хиты продаж</p>
-              <hr className='w-[300px] h-[7px] rounded bg-base my-2' />
-              <Content />
-            </div>
-        </div>
-      </Layout>
-    </>
-  );
-
+      )
 }
+
 
 const Content = () => {
   const { data: posts } = api.posts.getAll.useQuery()
-
+  const { data: imgs } = api.posts.getAllImg.useQuery()
+  
+  const images= imgs?.filter((item)=>item.id == '1')[0]?.altTitle
+  console.log(images);
+  
   return (<>
-    <ul className="grid grid-cols-4 justify-between gap-[10px] ">
-    {posts?.map((item)=>
-      <li key={item.id}
-      className="flex flex-col justify-between border-solid bg-white border-[1px] text-center border-basic p-4 pb-2 rounded"
-      >
-      {item.title}
-        <div className="flex mt-6 w-full justify-between">
-          <p className="font-basic font-xl font-normal ">{item.price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ")}</p>
-          <div className="flex gap-5">
-            <button className="bg-red-600 p-1 rounded">К</button>
-            <button>Л</button>
-            <button>С</button>
+  
+    <swiper-container
+      slides-per-view="4"
+      loop='true'
+    >
+    {posts?.map((item)=>(
+      
+      <swiper-slide>
+        <li className="flex min-h-[370px] mx-2 flex-col justify-between border-solid bg-white border-[1px] text-center border-basic p-4 pb-2 rounded items-center">
+          <div className="min-h-[220px]">
+            <img src=
+            {imgs?.filter((img)=>(
+              img.postID == item.id
+            ))[0]?.altTitle} 
+              className="w-[200px] max-h-[180px] p-4"
+            />
           </div>
-        </div>
-      </li>
-      )}
-    </ul>
+          {item.title}
+          <div className="flex mt-6 w-full justify-between">
+            <p className="font-basic font-xl font-normal ">{item.price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ")}</p>
+            <div className="flex gap-5">
+              <button className="bg-red-600 p-1 rounded">
+                <Image src={Basket}/>
+              </button>
+              <button><Image src={Comparison}/></button>
+              <button><Image src={Favourites}/></button>
+            </div>
+          </div>
+        </li>
+      </swiper-slide>
+      ))}
+    </swiper-container>
   </>)
 }
+
