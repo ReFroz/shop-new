@@ -105,7 +105,7 @@ const PostWithDiscount= ()=>{
                 {data}{":"}{minutes}{":"}{seconds}
               </p>
             </div>
-            <div className='max-w-[570px] ' >
+            <div className='max-w-[570px]' >
               <swiper-container
                 slides-per-view="1"
                 navigation="true"
@@ -132,9 +132,9 @@ const PostWithDiscount= ()=>{
 const Content = () => {
   const { data: posts } = api.posts.getAll.useQuery()
   const { data: imgs } = api.posts.getAllImg.useQuery()
-  
-  const images= imgs?.filter((item)=>item.id == '1')[0]?.altTitle
-  console.log(images);
+
+
+
   
   return (<>
   
@@ -156,8 +156,8 @@ const Content = () => {
           </div>
           {item.title}
           <div className="flex mt-6 w-full justify-between">
-            <p className="font-basic font-xl font-normal ">{item.price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ")}</p>
-            <div className="flex gap-5">
+            <p className="font-basic font-xl font-normal ">{item.price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ")}{" "}₽</p>
+            <div className="flex gap-6">
               <button className="bg-red-600 p-1 rounded">
                 <Image src={Basket}/>
               </button>
