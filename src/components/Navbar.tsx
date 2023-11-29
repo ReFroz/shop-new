@@ -21,10 +21,6 @@ import Search from "../img/Search.svg"
 
 export default function Header() {
     const {data: sessionData} = useSession()
-    const { data: secretMessage } = api.post.getSecretMessage.useQuery(
-        undefined, // no input
-        { enabled: sessionData?.user !== undefined }
-    );
     const router= useRouter()
     const [active,isActive]=useState(false)
     const [searchWord, setSearchWord]=useState("")
