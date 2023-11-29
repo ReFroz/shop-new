@@ -12,20 +12,28 @@ import type {
 import { getProviders, signIn, getCsrfToken } from "next-auth/react";
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "~/server/auth";
+import { useSearchParams } from "next/navigation";
+export async function getServerSideProps(context: GetServerSidePropsContext) {
+  const session = await getServerSession(context.req, context.res, authOptions)
 
-export async function getServerSideProps(context) {
-  const providers = await getProviders();
-  const csrfToken = await getCsrfToken(context);
+  // If the user is already logged in, redirect.
+  // Note: Make sure not to redirect to the same page
+  // To avoid an infinite loop!
+  if (session) {
+    return { redirect: { destination: "/" } }
+  }
+
+  const providers = await getProviders()
+
   return {
-    props: {
-      providers,
-      csrfToken,
-    },
-  };
+    props: { providers: providers ?? [] },
+  }
 }
 
-export default function Registration({ providers, csrfToken }) {
+export default function Registration({ providers }) {
   const router = useRouter();
+  const searchParams= useSearchParams()
+
   return (
     <>
       <div className='flex h-[100vh] items-center justify-center bg-[url("../img/login.png")] bg-cover bg-no-repeat font-basic text-base text-black'>
@@ -77,6 +85,7 @@ export default function Registration({ providers, csrfToken }) {
                     <Image src={Git} className="max-w-[50px]" />
                     Sign in with {provider.name}
                   </button>
+                  {searchParams.get('error')}
                 </div>
               ))}
             </div>
