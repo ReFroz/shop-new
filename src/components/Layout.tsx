@@ -2,11 +2,11 @@ import React from 'react'
 import Navbar from './Navbar'
 import Footer from './Footer'
 
-export default function Layout({children}) {
+export default function Layout({children, className=''}) {
   return (
     <>
     <Navbar/>
-    <main>{children}</main>
+    <main className={className}>{children}</main>
     <Footer/>
     </>
   )

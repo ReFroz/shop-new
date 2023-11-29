@@ -14,79 +14,33 @@ datasource db {
     url      = env("DATABASE_URL")
 }
 
-model Example {
-    id        String   @id @default(cuid())
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
-}
-
-// Necessary for Next auth
-model Account {
-    id                       String  @id @default(cuid())
-    userId                   String
-    type                     String
-    provider                 String
-    providerAccountId        String
-    refresh_token            String? @db.Text
-    refresh_token_expires_in Int?
-    access_token             String? @db.Text
-    expires_at               Int?
-    token_type               String?
-    scope                    String?
-    id_token                 String? @db.Text
-    session_state            String?
-    user                     User    @relation(fields: [userId], references: [id], onDelete: Cascade)
-
-    @@unique([provider, providerAccountId])
-}
-
-model Session {
-    id           String   @id @default(cuid())
-    sessionToken String   @unique
-    userId       String
-    expires      DateTime
-    user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-}
-
 model User {
-    id            String    @id @default(cuid())
-    name          String?
-    email         String?   @unique
-    emailVerified DateTime?
-    image         String?
-    accounts      Account[]
-    sessions      Session[]
-    topics        Topic[]
+  id           Int       @id @default(autoincrement())
+  name         String
+  lastName     String
+  email        String    @unique
+  phone        String    @unique
+  address      String?
+  passwordHash String
+  image        String
+  comments     Comment[]
 }
 
-model VerificationToken {
-    identifier String
-    token      String   @unique
-    expires    DateTime
+model Comment {
+  id        Int     @id @default(autoincrement())
+  user      User    @relation(fields: [userId], references: [id])
+  userId    Int
+  post      Post @relation(fields: [postID], references: [id])
+  postID Int
 
-    @@unique([identifier, token])
-}
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+} 
 
-model Topic {
-    id        String   @id @default(cuid())
-    createdAt DateTime @default(now())
-    title     String
-    user      User     @relation(fields: [userId], references: [id])
-    userId    String
-    notes     Note[]
-}
 
-model Note {
-    id        String   @id @default(cuid())
-    createdAt DateTime @default(now())
-    title     String   
-    content   String   @db.Text
-    topic     Topic    @relation(fields: [topicId], references: [id])
-    topicId   String
-}
 
 model Post{
-    id  String  @id @default(cuid())
+    id Int @id @default(autoincrement())
     createdAt DateTime @default(now())
     title String
     price Int
@@ -94,26 +48,27 @@ model Post{
     imgs Image[]
     categories Category[]
     brands Brand[]
+    comments Comment[]
 }
 model Image{
-    id String @id @default(cuid())
-    postID String
+    id Int @id @default(autoincrement())
     title String 
     altTitle String
-    posts Post @relation(fields: [postID],references: [id])
+    posts Post[]
 }
 
 model Brand{
-    id String @id @default(cuid())
-    postID String
+    id Int @id @default(autoincrement())
     title String
-    posts Post @relation(fields: [postID],references: [id])
+    img String
+    posts Post []
 }
 
 model Category{
-    id String @id @default(cuid())
+    id Int @id @default(autoincrement())
     title String 
     popularity Int @default(0)
-    posts Post @relation(fields:[postId], references: [id])
-    postId String
+    posts Post []
+    img String
+
 }

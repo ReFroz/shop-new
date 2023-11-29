@@ -9,7 +9,7 @@ import Image from 'next/image'
 
 export default function Footer() {
   return (
-    <footer className='bg-[#E4E4E4] px-5 py-[50px]'>
+    <footer className='bg-[#E4E4E4] px-5 py-[50px] mt-[150px]'>
         <div className='max-w-[1180px] mx-auto'>
             <div>
                 <Image
@@ -18,12 +18,15 @@ export default function Footer() {
                     alt='Логотип'
                 />
                 <p className='text-3xl mb-[121px]'>Nano -Магазин бытовых товаров извесных брендов и не только</p>
-                <div className='grid grid-cols-2'>
+                <div className='grid grid-cols-2 max-[450px]:grid-cols-1'>
                     <div>
                         <p className='text-3xl mb-[30px]'>Навигация</p>
                         <ul className='grid grid-cols-2 gap-[19px]'>
                             <li>
                                 <Link href='/'>Главная</Link>
+                            </li>
+                            <li>
+                                <Link href='/catalog'>Каталог</Link>
                             </li>
                             <li>
                                 <Link href='/'>Личный кабинет</Link>
