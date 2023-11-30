@@ -24,6 +24,7 @@ model User {
   passwordHash String
   image        String
   comments     Comment[]
+  favourites   Favourit[]
 }
 
 model Comment {
@@ -49,6 +50,7 @@ model Post{
     categories Category[]
     brands Brand[]
     comments Comment[]
+    favourit Favourit[]
 }
 model Image{
     id Int @id @default(autoincrement())
@@ -71,4 +73,12 @@ model Category{
     posts Post []
     img String
 
+}
+
+model Favourit{
+    id          Int     @id @default(autoincrement())
+    user        User    @relation(fields: [userID], references: [id])
+    userID      Int
+    posts       Post    @relation(fields: [postsID],references: [id])
+    postsID     Int
 }

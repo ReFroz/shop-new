@@ -45,6 +45,7 @@ export default function Home() {
 
         {/* Хиты продаж */}
         <Content countCols={cols} />
+        <PolularCategory/>
         <FeedbackForm/>
       </Layout>
     </>
@@ -188,9 +189,7 @@ const Content = ({ countCols }) => {
                       <button className="rounded bg-red-600 p-1">
                         <Image src={Basket} />
                       </button>
-                      <button>
-                        <Image src={Comparison} />
-                      </button>
+                      
                       <button>
                         <Image src={Favourites} />
                       </button>
@@ -210,7 +209,7 @@ const Content = ({ countCols }) => {
 const FeedbackForm=()=>{
   return(<>
   <div className="max-w-[1180px]  items-center  mx-auto font-basic text-xl p-5">
-      <p className="text-3xl">Хиты продаж</p>
+      <p className="text-3xl">Обратная связь</p>
       <hr className="my-2 h-[7px] w-[300px] rounded bg-base" />
       
       <form className="flex flex-col justify-center items-center">
@@ -228,4 +227,33 @@ const FeedbackForm=()=>{
    
   </div>
   </>)
+}
+
+const PolularCategory=()=>{
+  const {data:allCategory}= api.posts.get6Category.useQuery()
+  const router= useRouter()
+
+  return(<>
+  <div className="mx-auto max-w-[1180px] p-5">
+        <p className="text-3xl">Популярные категории</p>
+        <hr className="my-2 h-[7px] w-[300px] rounded bg-base" />
+    <div className="grid  gap-5 grid-cols-3 content-between justify-between">
+      
+      {allCategory?.map((item)=>(
+        <div 
+        onClick={()=>{
+          router.push(`catalog?word=&filter=&category=${item.title}`)
+        }}
+        key={item.id} className="flex gap-[30px] mx-auto  mb-5 w-[300px] items-center p-2 bg-base-opacity h-[100px]">
+          <div className="bg-white">
+          <img src={item.img} className="w-[50px] h-[80px] "/>
+          </div>
+          <p >{item.title}</p>
+          </div>
+      ))}
+    </div>
+  </div>
+    </>
+
+  )
 }

@@ -49,7 +49,7 @@ export default function Header() {
                 <Image 
                     onClick={
                         (e)=>{
-                        router.push(searchWord)
+                        router.push(`/catalog?word=${searchWord}&filter=&category=`)
                         setSearchWord("")
                         }}
                     className="w-[]"
@@ -71,21 +71,11 @@ export default function Header() {
                         <li className="flex whitespace-nowrap flex-col items-center">
                             <Link href="/about">О нас</Link>
                         </li>
-                        <li>
-                            <Link 
-                            className="flex flex-col items-center justify-center"
-                            href="/">
-                                <Image 
-                                    src={Comparison}
-                                    alt="Иконка"
-                                />
-                                Сравнение
-                            </Link>
-                        </li>
+                        
                         <li >
                             <Link 
                             className="flex flex-col items-center justify-center"
-                            href="/">
+                            href="/basket">
                                 <Image 
                                     src={Basket}
                                     alt="Иконка"
@@ -96,7 +86,7 @@ export default function Header() {
                         <li >
                             <Link 
                             className="flex flex-col items-center justify-center"
-                            href="/">
+                            href="/favourites">
                                 <Image 
                                     src={Favourites}
                                     alt="Иконка"
@@ -108,7 +98,7 @@ export default function Header() {
                         <li >
                             <Link 
                             className="flex flex-col items-center justify-center"
-                            href="/">
+                            href="/profil">
                                 <Image 
                                     src={Profil}
                                     alt="Иконка"
@@ -151,8 +141,8 @@ export default function Header() {
     </header>
     
         <div className={active ?
-        "transition-transform absolute right-[20px] z-40 bg-white":
-        "transition-transform absolute right-[20px] z-40 bg-white hidden"
+        "transition-transform absolute right-[0px] min-w-[200px] rounded-bl-xl z-40 bg-white":
+        "transition-transform absolute right-[0px] z-40 bg-white hidden"
         }>
             <nav>
                 <ul className="flex items-end flex-col p-4 gap-6">
@@ -168,21 +158,11 @@ export default function Header() {
                         <li className="border-black border-solid border-b-2 border-spacing-4">
                             <Link href="/about">О нас</Link>
                         </li>
+                        
                         <li className="border-black border-solid border-b-2 border-spacing-4">
                             <Link 
                             className="flex gap-[10px]"
-                            href="/">
-                                <Image 
-                                    src={Comparison}
-                                    alt="Иконка"
-                                />
-                                Сравнение
-                            </Link>
-                        </li>
-                        <li className="border-black border-solid border-b-2 border-spacing-4">
-                            <Link 
-                            className="flex gap-[10px]"
-                            href="/">
+                            href="/basket">
                                 <Image 
                                     src={Basket}
                                     alt="Иконка"
@@ -193,7 +173,7 @@ export default function Header() {
                         <li className="border-black border-solid border-b-2 border-spacing-4">
                             <Link 
                             className="flex gap-[10px]"
-                            href="/">
+                            href="/favourites">
                                 <Image 
                                     src={Favourites}
                                     alt="Иконка"
@@ -205,7 +185,7 @@ export default function Header() {
                         <li className="border-black border-solid border-b-2 border-spacing-4">
                             <Link 
                             className="flex gap-[10px]"
-                            href="/">
+                            href="/profil">
                                 <Image 
                                     src={Profil}
                                     alt="Иконка"

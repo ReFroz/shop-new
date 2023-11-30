@@ -13,24 +13,9 @@ import { getProviders, signIn, getCsrfToken } from "next-auth/react";
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "~/server/auth";
 import { useSearchParams } from "next/navigation";
-export async function getServerSideProps(context: GetServerSidePropsContext) {
-  const session = await getServerSession(context.req, context.res, authOptions)
 
-  // If the user is already logged in, redirect.
-  // Note: Make sure not to redirect to the same page
-  // To avoid an infinite loop!
-  if (session) {
-    return { redirect: { destination: "/" } }
-  }
-
-  const providers = await getProviders()
-
-  return {
-    props: { providers: providers ?? [] },
-  }
-}
-
-export default function Registration({ providers }) {
+export default function Registration({ }) {
+  
   const router = useRouter();
   const searchParams= useSearchParams()
 
@@ -76,18 +61,7 @@ export default function Registration({ providers }) {
                 className="h-[70px] w-[200px] rounded-xl bg-red-600 text-3xl text-white"
               ></input>
 
-              {Object?.values(providers)?.map((provider) => (
-                <div key={provider.name}>
-                  <button
-                    className="flex h-[70px] w-[200px] items-center justify-center gap-[5px] rounded-xl bg-white p-2 text-3xl text-lg text-black"
-                    onClick={() => signIn(provider.id)}
-                  >
-                    <Image src={Git} className="max-w-[50px]" />
-                    Sign in with {provider.name}
-                  </button>
-                  {searchParams.get('error')}
-                </div>
-              ))}
+              
             </div>
           </form>
         </div>

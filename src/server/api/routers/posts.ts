@@ -28,6 +28,32 @@ export const postsRouter = createTRPCRouter({
 
         })
     }),
+    get1post:publicProcedure
+    .input(z.number())
+    .query(({ctx,input})=>{
+        return ctx.db.post.findMany({
+            select:{
+                id:true,
+                title:true,
+                price:true,
+                imgs:{
+                    select:{
+                        altTitle:true,
+                    }
+                },
+                brands:{
+                    select:{
+                        title:true,
+                        img:true,
+                    }
+                }
+            },
+                where:{
+                    id:input
+                }
+
+        })
+    }),
 
     getCategory:publicProcedure
     .query(({ctx})=>{
@@ -37,6 +63,16 @@ export const postsRouter = createTRPCRouter({
             title:true,
             img:true
            }}
+        )
+    }),
+    get6Category:publicProcedure
+    .query(({ctx})=>{
+        return ctx.db.category.findMany(
+           {select:{
+            id:true,
+            title:true,
+            img:true
+           },take:6}
         )
     }),
     getFilterPosts:publicProcedure
@@ -72,7 +108,7 @@ export const postsRouter = createTRPCRouter({
                     {
                         categories:{
                             some:{
-                                title:input.selectedItem
+                                title: input.selectedItem.toString().length <1? {not:undefined} : input.selectedItem
                             }
                         }
                     }

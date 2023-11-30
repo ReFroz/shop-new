@@ -26,25 +26,22 @@ export default function Footer() {
                                 <Link href='/'>Главная</Link>
                             </li>
                             <li>
-                                <Link href='/catalog'>Каталог</Link>
+                                <Link href='/catalog?word=&filter=&category='>Каталог</Link>
                             </li>
                             <li>
-                                <Link href='/'>Личный кабинет</Link>
+                                <Link href='/profil'>Личный кабинет</Link>
                             </li>
                             <li>
                                 <Link href='/'>Корзина</Link>
                             </li>
                             <li>
-                                <Link href='/'>Войти</Link>
+                                <Link href='/login'>Войти</Link>
                             </li>
                             <li>
-                                <Link href='/'>Избранное</Link>
+                                <Link href='/favourites'>Избранное</Link>
                             </li>
                             <li>
-                                <Link href='/'>Регистрация</Link>
-                            </li>
-                            <li>
-                                <Link href='/'>Сравнение</Link>
+                                <Link href='/registration'>Регистрация</Link>
                             </li>
                             <li>
                                 <Link href='/about'>О нас</Link>

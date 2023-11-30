@@ -14,18 +14,7 @@ import { authOptions } from "~/server/auth";
 
 
 
-export async function getServerSideProps(context) {
-  const providers = await getProviders()
-  const csrfToken = await getCsrfToken(context)
-  return {
-    props: {
-      providers,
-      csrfToken
-    },
-  }
-}
-
-export default function Login({providers, csrfToken }){
+export default function Login(){
   const router = useRouter()
   return (
     <>
