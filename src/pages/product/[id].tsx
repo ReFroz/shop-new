@@ -44,8 +44,8 @@ export default function Page() {
                 </div>
                 <div className="flex w-full flex-col justify-center rounded-xl p-5 shadow-lg max-[860px]:items-center">
                   <div className="flex flex-wrap  items-center gap-[10px]">
-                    {item.title}
-
+                    <p className="text-2xl">{item.title}</p>
+                    <p className="text-xl">{item.property}</p>
                     <img
                       src={item.brands[0]?.img}
                       className="h-[28px] w-[100px]"

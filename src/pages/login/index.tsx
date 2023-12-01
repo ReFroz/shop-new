@@ -1,4 +1,4 @@
-import React from "react";
+import React, { FormEventHandler, useState } from "react";
 import Logo from "../../img/Ico.png";
 import Git from "../../img/git.png";
 import Image from "next/image";
@@ -14,11 +14,18 @@ import { getServerSession } from "next-auth/next";
 import { authOptions } from "~/server/auth";
 import { useSearchParams } from "next/navigation";
 
-export default function Registration({ }) {
+export default function Login({ }) {
   
   const router = useRouter();
   const searchParams= useSearchParams()
+  
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState(""); 
 
+  const handleSubmit: FormEventHandler = (e) => {
+    e.preventDefault();
+    signIn("credentials", { email, password, callbackUrl: "/" });
+  };
   return (
     <>
       <div className='flex h-[100vh] items-center justify-center bg-[url("../img/login.png")] bg-cover bg-no-repeat font-basic text-base text-black'>
@@ -36,18 +43,22 @@ export default function Registration({ }) {
               />
             </div>
           </div>
-          <form className="flex flex-col gap-[20px] " method="post">
+          <form onSubmit={handleSubmit} className="flex flex-col gap-[20px] " method="post">
             <input
-              type="text"
-              name="login"
+              type="email"
+              name="email"
               className="rounded-xl border-4 border-solid border-base px-3 py-4 text-3xl"
-              placeholder="Логин"
+              placeholder="Почта"
+              onChange={(e)=>setEmail(e.target.value)}
+              value={email}
             />
             <input
               type="password"
               name="password"
               className="rounded-xl border-4 border-solid border-base px-3 py-4 text-3xl"
               placeholder="Пароль"
+              onChange={(e)=>setPassword(e.target.value)}
+              value={password}
             />
             <p className="text-xl text-[#727272]">Забыли пароль?</p>
             <p className="text-xl text-[#727272]">

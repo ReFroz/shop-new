@@ -12,6 +12,8 @@ export const postsRouter = createTRPCRouter({
                 id:true,
                 title:true,
                 price:true,
+                popularity:true,
+                property:true,
                 imgs:{
                     select:{
                         altTitle:true,
@@ -36,6 +38,7 @@ export const postsRouter = createTRPCRouter({
                 id:true,
                 title:true,
                 price:true,
+                property:true,
                 imgs:{
                     select:{
                         altTitle:true,

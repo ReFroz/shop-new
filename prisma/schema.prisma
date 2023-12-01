@@ -46,6 +46,7 @@ model Post{
     title String
     price Int
     popularity Int @default(0)
+    property String
     imgs Image[]
     categories Category[]
     brands Brand[]

@@ -138,9 +138,7 @@ const Posts = () => {
                     <button className="rounded bg-red-600 p-1">
                       <Image src={Basket} />
                     </button>
-                    <button>
-                      <Image src={Comparison} />
-                    </button>
+                   
                     <button>
                       <Image src={Favourites} />
                     </button>

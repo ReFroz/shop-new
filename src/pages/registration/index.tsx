@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Logo from "../../img/Ico.png";
 import Image from "next/image";
 import { useRouter } from "next/router";
@@ -11,10 +11,32 @@ import type {
 import { getProviders, signIn, getCsrfToken } from "next-auth/react";
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "~/server/auth";
+import { api } from "~/utils/api";
 
 
 
 export default function Login(){
+
+
+  const [email,setEmail]=useState('')
+  const [phone,setPhone]=useState('')
+  const [lastName,setLastName]=useState('')
+  const [password,setPassword]=useState('')
+  const [pasword2,setPassword2]=useState('')
+  const [name,setName]=useState('')
+
+  const mutation = api.auth.register.useMutation()
+
+  const handleSubmit= async (e)=>{
+    e.preventDefault()
+    const user= await mutation.mutateAsync({
+      name,
+      lastName,
+      email,
+      phone,
+      password,
+    })
+  }
   const router = useRouter()
   return (
     <>
@@ -33,30 +55,54 @@ export default function Login(){
               />
             </div>
           </div>
-          <form className="flex flex-col gap-[20px] " method="post">
+          <form onSubmit={handleSubmit} className="flex flex-col gap-[20px] " method="post">
             <input
               type="text"
-              name="login"
+              name="name"
               className="rounded-xl border-4 border-solid border-base px-3 py-4 text-3xl"
-              placeholder="Логин"
+              placeholder="Имя"
+              value={name}
+              onChange={(e)=>setName(e.target.value)}
+            />
+            <input
+              type="text"
+              name="second"
+              className="rounded-xl border-4 border-solid border-base px-3 py-4 text-3xl"
+              placeholder="Фамилия"
+              value={lastName}
+              onChange={(e)=>setLastName(e.target.value)}
             />
             <input
               type="email"
               name="email"
               className="rounded-xl border-4 border-solid border-base px-3 py-4 text-3xl"
               placeholder="Почта"
+              value={email}
+              onChange={(e)=>setEmail(e.target.value)}
+            />
+            <input
+              type="tel"
+              name="tel"
+              className="rounded-xl border-4 border-solid border-base px-3 py-4 text-3xl"
+              placeholder="Телефон"
+              value={phone}
+              onChange={(e)=>setPhone(e.target.value)}
             />
             <input
               type="password"
               name="password"
               className="rounded-xl border-4 border-solid border-base px-3 py-4 text-3xl"
               placeholder="Пароль"
+              value={password}
+              onChange={(e)=>setPassword(e.target.value)}
             />
             <input
               type="password"
               name="password2"
               className="rounded-xl border-4 border-solid border-base px-3 py-4 text-3xl"
               placeholder="Повторите пароль"
+              value={pasword2}
+              onChange={(e)=>setPassword2(e.target.value)}
             />
             <p className="text-xl text-[#727272]">
               <Link href={"/login"}>
@@ -65,6 +111,7 @@ export default function Login(){
             </p>
             <input
               type="submit"
+              
               className="h-[70px] w-[200px] rounded-xl bg-red-600 text-3xl text-white"
             />
           </form>

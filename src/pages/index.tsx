@@ -5,6 +5,7 @@ import Link from "next/link";
 import { api } from "~/utils/api";
 import Layout from "../components/Layout";
 
+import { SendMailSchema } from "~/server/api/routers/toEmail";
 import Feedback from "../img/feedpack.jpg";
 import Televisor from "../img/televisor.png";
 import Favourites from "../img/Favourites.svg";
@@ -12,6 +13,7 @@ import Comparison from "../img/Comparison.svg";
 import Basket from "../img/Basket_white.svg";
 import { useRouter } from "next/dist/client/router";
 import { useEffect, useState } from "react";
+import { useSearchParams } from "next/navigation";
 
 export default function Home() {
   const [cols, setCols] = useState(4);
@@ -59,7 +61,8 @@ const PostWithDiscount = () => {
   const [data, setData] = useState(0);
   const [minutes, setMinutes] = useState(0);
   const [seconds, setSeconds] = useState(0);
-
+  const {data:posts}=api.posts.getAll.useQuery()
+  const filterPost=posts?.sort((a,b)=> a.popularity > b.popularity ? 1 : -1 )
   useEffect(() => {
     const interval = setInterval(() => {
       const date = new Date();
@@ -82,26 +85,19 @@ const PostWithDiscount = () => {
               navigation="true"
               pagination="true"
               loop="true"
-              className=""
             >
-              <swiper-slide>
-                <Image src={Televisor} alt="Иконки"className="block h-full w-full" />
-              </swiper-slide>
-              <swiper-slide>
-                <Image src={Televisor} alt="Иконки"className="block h-full w-full" />
-              </swiper-slide>
-              <swiper-slide>
-                <Image src={Televisor} alt="Иконки"className="block h-full w-full" />
-              </swiper-slide>
-              <swiper-slide>
-                <Image src={Televisor} alt="Иконки"className="block h-full w-full" />
-              </swiper-slide>
-              <swiper-slide>
-                <Image src={Televisor} alt="Иконки"className="block h-full w-full" />
-              </swiper-slide>
-              <swiper-slide>
-                <Image src={Televisor} alt="Иконки"className="block h-full w-full" />
-              </swiper-slide>
+              {filterPost?.map((item)=>(
+               <swiper-slide key={item.id} >
+                <div className="flex px-8 p-5">
+                  <img src={item.imgs[0]?.altTitle} className="w-[200px]"/>
+                  <div className="flex-col flex p-5">
+                    <p>{item.title}</p>
+                    <p className="mt-5 text-2xl">{item.price}₽</p>
+                    <p className="mt-5 underline line-through"> {item.price + 1000}₽</p>
+                  </div>
+                </div>
+                </swiper-slide>
+              ))}
             </swiper-container>
           </div>
         </div>
@@ -126,24 +122,18 @@ const PostWithDiscount = () => {
               pagination="true"
               loop="true"
             >
-              <swiper-slide>
-                <Image src={Televisor} alt="Иконки"className="block h-full w-full" />
-              </swiper-slide>
-              <swiper-slide>
-                <Image src={Televisor} alt="Иконки"className="block h-full w-full" />
-              </swiper-slide>
-              <swiper-slide>
-                <Image src={Televisor} alt="Иконки"className="block h-full w-full" />
-              </swiper-slide>
-              <swiper-slide>
-                <Image src={Televisor} alt="Иконки"className="block h-full w-full" />
-              </swiper-slide>
-              <swiper-slide>
-                <Image src={Televisor} alt="Иконки"className="block h-full w-full" />
-              </swiper-slide>
-              <swiper-slide>
-                <Image src={Televisor} alt="Иконки"className="block h-full w-full" />
-              </swiper-slide>
+              {filterPost?.map((item)=>(
+               <swiper-slide key={item.id} >
+                <div className="flex px-8 p-5">
+                  <img src={item.imgs[0]?.altTitle} className="w-[200px]"/>
+                  <div className="flex-col flex p-5">
+                    <p>{item.title}</p>
+                    <p className="mt-5 text-2xl">{item.price}₽</p>
+                    
+                  </div>
+                </div>
+                </swiper-slide>
+              ))}
             </swiper-container>
           </div>
         </div>
@@ -207,17 +197,41 @@ const Content = ({ countCols }) => {
 
 
 const FeedbackForm=()=>{
+  const mutation = api.mail.send.useMutation()
+
+  const router=useRouter()
+
+  const [name, setName]=useState('')
+  const [email, setEmail]=useState('')
+  const [message, setMessage]=useState('')
+
+  const handleSubmit= async (e)=>{
+    e.preventDefault()
+    const success= await mutation.mutateAsync({
+      name,
+      email,
+      message
+    })
+  if (!success) {
+      router.push(
+        `/?error=Не удалось отправить сообщение"`,
+      );
+    }
+  router.push(`/?success=Сообщение отправлено! Ждите ответа в течение дня.`)
+  }
+
+
   return(<>
   <div className="max-w-[1180px]  items-center  mx-auto font-basic text-xl p-5">
       <p className="text-3xl">Обратная связь</p>
       <hr className="my-2 h-[7px] w-[300px] rounded bg-base" />
       
-      <form className="flex flex-col justify-center items-center">
+      <form onSubmit={handleSubmit} className="flex flex-col justify-center items-center">
         <div  className="grid grid-cols-2 gap-[30px]" >
         <div className="flex flex-col justify-between gap-[30px]">
-          <input  className="py-2 px-1 bg-base-opacity rounded focus:border-base" name="name" type="text" placeholder='Имя'/>
-          <input  className="py-2 px-1 bg-base-opacity rounded focus:border-base" name="email" type="email" placeholder='Почта'/>
-          <textarea className="py-2 px-1 bg-base-opacity rounded focus:border-base"  placeholder='Ваш вопрос, отзыв или пожелание' 
+          <input onChange={(e)=>{setName(e.target.value)}} className="py-2 px-1 bg-base-opacity rounded focus:border-base" name="name" type="text" placeholder='Имя'/>
+          <input onChange={(e)=>{setEmail(e.target.value)}} className="py-2 px-1 bg-base-opacity rounded focus:border-base" name="email" type="email" placeholder='Почта'/>
+          <textarea onChange={(e)=>{setMessage(e.target.value)}} className="py-2 px-1 bg-base-opacity rounded focus:border-base"  placeholder='Ваш вопрос, отзыв или пожелание' 
           name="comment" cols="20" rows="7"></textarea>
         </div>
           <Image  src={Feedback} />
@@ -232,7 +246,7 @@ const FeedbackForm=()=>{
 const PolularCategory=()=>{
   const {data:allCategory}= api.posts.get6Category.useQuery()
   const router= useRouter()
-
+  
   return(<>
   <div className="mx-auto max-w-[1180px] p-5">
         <p className="text-3xl">Популярные категории</p>
